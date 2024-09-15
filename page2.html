@@ -1,0 +1,575 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markmyday</title>
+    <style>
+       body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f6f8;
+    display: flex;
+    color: #333;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2d2f33;
+    padding: 20px;
+    color: #fff;
+    height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height:700px
+}
+
+.sidebar .logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff6f61;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .logo img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background-color: #ff6f61;
+}
+
+.sidebar ul li span {
+    margin-left: 15px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #f4f6f8;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 32px;
+    color: #ff6f61;
+    font-weight: bold;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #388e3c;
+}
+
+.settings-icon {
+    font-size: 24px;
+    color: #ff6f61;
+    cursor: pointer;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.settings-icon:hover {
+    color: #388e3c;
+}
+
+
+/* Ensure the class cards fit in a single row */
+.class-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Allows horizontal scrolling if necessary */
+    padding: 20px; /* Optional: Add some padding to the container */
+    white-space: nowrap;/* Prevents wrapping of cards */
+}
+
+/* Adjust the class card styling for row layout */
+.class-card {
+    flex: 1 1 calc(33.333% - 20px); /* Adjust the width so three cards fit in one row */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-width: 290px; /* Ensure cards don't shrink too much */
+}
+
+.class-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: Adjust the layout for small screens */
+@media (max-width: 768px) {
+    .class-grid {
+        flex-direction: column; /* Stack cards vertically on small screens */
+        align-items: center; /* Center align the cards */
+    }
+
+    .class-card {
+        flex: 1 1 100%; /* Cards take full width on small screens */
+        min-width: auto; /* Remove min-width constraint */
+    }
+}
+
+
+.class-card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.class-card .instructor {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.class-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    border: 2px solid #ff6f61;
+}
+
+.class-card .attendance-status {
+    margin-top: 15px;
+}
+
+.class-card .attendance-status span {
+    font-size: 14px;
+    color: #666;
+}
+
+.progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+    position: relative;
+}
+
+.progress-bar .progress {
+    height: 10px;
+    background-color: #ff6f61;
+    width: 80%;
+    transition: width 0.3s ease;
+}
+
+.badge {
+    background-color: #ff6f61;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.detention-status {
+    margin-top: 20px;
+    color: #ff6f61;
+    font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #dceedd;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #161717;
+}
+
+.additional-info {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.additional-info > div {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height:100px;
+}
+
+h3 {
+    font-size: 1.6em;
+    color: #34495E;
+    margin-bottom: 15px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .class-card {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .class-card {
+        flex: 1 1 100%;
+    }
+
+    .logout-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .settings-icon {
+        font-size: 20px;
+    }
+
+    .footer {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .logout-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .settings-icon {
+        font-size: 18px;
+    }
+
+    .class-card h3 {
+        font-size: 18px;
+    }
+
+    .class-card .instructor {
+        font-size: 14px;
+    }
+}
+
+
+.settings-icon {
+            font-size: 24px;
+            color: #ff6f61;
+            cursor: pointer;
+            margin-left: 15px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .settings-icon:hover {
+            color: #388e3c ;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            margin-right: 15px;
+        }
+
+        .search-bar input {
+            border: none;
+            padding: 5px 10px;
+            width: 100px;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            border: none;
+            background-color:   #4CAF50;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-bar button:hover {
+            background-color: #388e3c ;
+        }
+
+        .settings-menu {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .settings-menu p {
+            margin: 0;
+            color: #333;
+        }
+        .dropdown-menu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+    background-color: #444;
+    border-radius: 5px;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+    color: white;
+}
+
+.dropdown-menu li:hover {
+    background-color: #ff6f61;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown span {
+    cursor: pointer;
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+}
+</style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            Markmyday
+        </div>
+        <ul>
+            <li class="active"><img src="home-button.png" height="30px" width="30px"></i><span>Home</span></li>
+            <li><img src="calendar.png" height="30px" width="30px"></i><span>Attendance</span></li>
+            <li class="dropdown">
+                <img src="graducation-cap (1).png" height="30px" width="30px"><span>Classes</span>
+                <ul class="dropdown-menu">
+                    <li><a href="#">SYIT HCON</a></li>
+                    <li><a href="#">SYIT DBMS</a></li>
+                    <li><a href="#">SYIT OOP</a></li>
+                    <li><a href="#">SYIT DLD</a></li>
+                    <li><a href="#">SYIT CLS</a></li>
+                </ul>
+            </li>
+            <li><a href="informa sider 4.html"><img src="information.png" height="30px" width="30px"></i><span>Information</span></li></a>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+  
+    <div class="main-content">
+        <div class="header">
+            <h1>HELLO! See your <i>Chronomark</i></h1>
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <button>Search</button>
+                </div>
+               <span class="social-icon"></span> <!-- Gear icon (Settings) -->
+                <a href="setting.html"><img src="setting-lines.png" alt="setting" width="25px" height="25px"></a>
+                <button class="logout-btn" id="logoutBtn">LOGOUT</button>
+            </div>
+        </div>
+    
+       
+
+        <div class="class-grid">
+            <!-- Class Card 1 -->
+            <div class="class-card">
+                <a href="https://docs.google.com/spreadsheets/d/1jQOR7YPtFrTHF8UBzDV9csopzJl5qrRdbX1fwPNh5nk/edit?gid=0#gid=0">
+                    <h3>SYIT HCON</h3>
+                </a>
+                <p class="instructor">Maruti Patil</p>
+                <div class="attendance-status">
+                    <span>Attendance: 90%</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="badge">No Detention</div>
+            </div>
+         
+  <!-- Class Card 2 -->
+            <div class="class-card">
+                <h3>SYIT-DBMS</h3>
+                <p class="instructor">Sachin Pukale</p>
+                <div class="attendance-status">
+                    <span>Attendance: 60%</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="badge detention-status">Detention Alert</div>
+            </div>
+
+            <!-- Class Card 3 -->
+            <div class="class-card">
+                <h3>OOP SYIT</h3>
+                <p class="instructor">Shobha Nadgeri</p>
+                <div class="attendance-status">
+                    <span>Attendance: 90%</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%;"></div>
+                    </div>
+                </div>
+                <div class="badge">No Detention</div>
+            </div>
+        <!-- Class Card 5 -->
+        <div class="class-card">
+           <h3>SYIT DLD</h3>
+             <p class="instructor">P.V.Italkar</p>
+              <div class="attendance-status">
+               <span>Attendance: 83%</span>
+           <div class="progress-bar">
+            <div class="progress" style="width: 83%;"></div>
+           </div>
+    </div>
+    <div class="badge">No Detention</div>
+</div>
+
+            <!-- Class Card 4 -->
+            <div class="class-card">
+                <h3>SYIT CLS</h3>
+                <p class="instructor">Preeti Kole</p>
+                <div class="attendance-status">
+                    <span>Attendance: 75%</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="badge detention-status">Detention Alert</div>
+            </div>
+        </div>
+
+       <section class="additional-info">
+            <div class="upcoming-deadlines">
+                <h3>Upcoming Deadlines</h3>
+                <!-- Content goes here -->
+            </div>
+            <div class="announcements">
+                <h3>Announcements</h3>
+                <!-- Content goes here -->
+            </div>
+        </section>
+<br>
+<br>
+<br>
+<br>
+
+        <div class="footer">
+            &copy; 2024 MarkMyDay. All rights reserved.
+        </div>
+
+        <script>
+            document.getElementById("logoutBtn").addEventListener("click", function() {
+                // Clear session storage or any relevant data
+                sessionStorage.clear();
+                localStorage.clear(); // If you used localStorage
+    
+                // Redirect to the login page or another page
+                window.location.href = "logout.html";
+    
+                // Optionally, you could also reload the page to clear cached data
+                // location.reload();
+            });
+
+
+
+            document.getElementById('classesBtn').addEventListener('click', function () {
+            var dropdown = document.getElementById('dropdownMenu');
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        </script>
+        </body>
