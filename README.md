@@ -8,8 +8,9 @@
 <<<<<<< HEAD
    this is my first project
 =======
-- this is my first project
->>>>>>> 9355748e03f57c5aa3c3d8e7a6156f5a0338d523
+- this is my first project 
+===PRACHI NIKAM====
+===happy engineering day===
 <!---
 Prachi17998/Prachi17998 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
